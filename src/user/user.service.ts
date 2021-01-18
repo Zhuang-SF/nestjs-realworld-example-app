@@ -39,6 +39,8 @@ export class UserService {
 
     // check uniqueness of username/email
     const {username, email, password} = dto;
+
+    console.log('按照我的理解, 这里应该是有一层加密', password)
     const qb = await getRepository(UserEntity)
       .createQueryBuilder('user')
       .where('user.username = :username', { username })
@@ -59,12 +61,15 @@ export class UserService {
     newUser.password = password;
     newUser.articles = [];
 
+    console.log(newUser)
+
     const errors = await validate(newUser);
     if (errors.length > 0) {
       const _errors = {username: 'Userinput is not valid.'};
       throw new HttpException({message: 'Input data validation failed', _errors}, HttpStatus.BAD_REQUEST);
 
     } else {
+
       const savedUser = await this.userRepository.save(newUser);
       return this.buildUserRO(savedUser);
     }
