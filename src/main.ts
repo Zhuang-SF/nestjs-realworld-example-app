@@ -7,6 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule, appOptions);
   app.setGlobalPrefix('api');
 
+  // 下面的不需要太关心, 是 swagger 的 api document
   const options = new DocumentBuilder()
     .setTitle('NestJS Realworld Example App')
     .setDescription('The Realworld API description')

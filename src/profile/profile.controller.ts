@@ -17,6 +17,7 @@ export class ProfileController {
 
   @Get(':username')
   async getProfile(@User('id') userId: number, @Param('username') username: string): Promise<ProfileRO> {
+    console.log('来这里了吗::: ', userId, username)
     return await this.profileService.findProfile(userId, username);
   }
 

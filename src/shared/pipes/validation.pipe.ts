@@ -6,16 +6,19 @@ import { HttpException } from '@nestjs/common/exceptions/http.exception';
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
   async transform(value, metadata: ArgumentMetadata) {
-
+    console.log(' pass value here:: ',metadata)
     if (!value) {
       throw new BadRequestException('No data submitted');
     }
 
+    // metatype 的讲解 : https://www.notion.so/toozhuang/metatype-c2b55b4e7b8b4fc88a4cee287b1a9e12
     const { metatype } = metadata;
     if (!metatype || !this.toValidate(metatype)) {
+      console.log('看来是由于没有用typescript , 自动不过来了啊')
       return value;
     }
     const object = plainToClass(metatype, value);
+    console.log('我靠 这么叼吗::  ', object)
     const errors = await validate(object);
     if (errors.length > 0) {
       throw new HttpException({message: 'Input data validation failed', errors:  this.buildError(errors)}, HttpStatus.BAD_REQUEST);

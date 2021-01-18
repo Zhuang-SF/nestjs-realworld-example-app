@@ -37,6 +37,7 @@ export class ArticleController {
 
   @Get(':slug')
   async findOne(@Param('slug') slug): Promise<ArticleRO> {
+    console.log('来这里了看来:   ', slug )
     return await this.articleService.findOne({slug});
   }
 
